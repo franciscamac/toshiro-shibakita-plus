@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nginx-lb
+    ports:
+      - "4500:4500"
+    depends_on:
+      - app1
+      - app2
+      - app3
+    networks:
+      - app-network
+
+  app1:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: app1
+    environment:
+      DB_HOST: db
+      DB_USER: toshiro
+      DB_PASSWORD: toshiro
+      DB_NAME: meubanco
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: app2
+    environment:
+      DB_HOST: db
+      DB_USER: toshiro
+      DB_PASSWORD: toshiro
+      DB_NAME: meubanco
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  app3:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: app3
+    environment:
+      DB_HOST: db
+      DB_USER: toshiro
+      DB_PASSWORD: toshiro
+      DB_NAME: meubanco
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mysql:5.7
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: meubanco
+      MYSQL_USER: toshiro
+      MYSQL_PASSWORD: toshiro
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./banco.sql:/docker-entrypoint-initdb.d/banco.sql:ro
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
