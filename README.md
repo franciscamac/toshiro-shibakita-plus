@@ -40,7 +40,6 @@ Certifique-se de ter o **Docker** e o **Docker Compose** instalados em sua máqu
 
 ## 📸 Demonstração
 
-*(Dica: Após tirar o print da sua tela funcionando, salve a imagem na pasta do projeto como `resultado.png` e atualize o link abaixo)*
 
 ![Resultado do Projeto](./resultado.png)
 
